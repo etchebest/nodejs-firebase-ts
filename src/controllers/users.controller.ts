@@ -50,20 +50,19 @@ export class UserController {
 
             const docRef = getFirestore().collection('users').doc(userId);
 
-            if()
-
-            const snapshot = await getFirestore()
-                .collection('users')
-                .doc(userId)
-                .set({
+            if ((await docRef.get()).exists) {
+                await docRef.set({
                     nome: user.nome,
                     email: user.email,
                     idade: user.idade,
                 });
 
-            return res.status(200).send({
-                message: `Usuário ${userId} foi alterado com sucesso!`,
-            });
+                return res.status(200).send({
+                    message: `Usuário ${userId} foi alterado com sucesso!`,
+                });
+            } else {
+                throw new NotFoundError('Usuário não encontrado.');
+            }
         } catch (error) {
             next(error);
         }
