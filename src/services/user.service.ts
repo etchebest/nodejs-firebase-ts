@@ -1,54 +1,48 @@
-import { getFirestore } from 'firebase-admin/firestore';
 import { User } from '../types/user.type.js';
+import { UserRepository } from '../repositories/user.repository.js';
 import { NotFoundError } from '../errors/not-found.error.js';
 
 export class UserService {
-    async getAll(): Promise<User[]> {
-        const snapshot = await getFirestore().collection('users').get();
+    private userRepository: UserRepository;
 
-        return snapshot.docs.map((doc) => {
-            return {
-                id: doc.id,
-                ...doc.data(),
-            };
-        }) as unknown as User[];
+    constructor() {
+        this.userRepository = new UserRepository();
+    }
+
+    async getAll(): Promise<User[]> {
+        return this.userRepository.getAll();
     }
 
     async getById(userId: string): Promise<User> {
-        const doc = await getFirestore().collection('users').doc(userId).get();
+        const user = await this.userRepository.getById(userId);
 
-        if (!doc.exists) {
+        if (!user) {
             throw new NotFoundError('Usuário não encontrado');
         }
 
-        return {
-            id: doc.id,
-            ...doc.data(),
-        } as unknown as User;
+        return user;
     }
 
     async save(user: User): Promise<void> {
-        const userSave = await getFirestore()
-            .collection('users')
-            .add({ ...user });
+        return this.userRepository.save(user);
     }
 
     async update(userId: string, user: User): Promise<string> {
-        const docRef = getFirestore().collection('users').doc(userId);
-
-        if ((await docRef.get()).exists) {
-            await docRef.set({
-                nome: user.nome,
-                email: user.email,
-                idade: user.idade,
-            });
-            return 'Usuário atualizado com sucesso!';
-        } else {
+        const _user = await this.userRepository.getById(userId);
+        if (!_user) {
             throw new NotFoundError('Usuário não encontrado.');
         }
+
+        _user.nome = user.nome;
+        _user.email = user.email;
+        _user.idade = user.idade;
+
+        this.userRepository.update(_user);
+        
+        return 'Usuário atualizado com sucesso!';
     }
 
     async delete(userId: string): Promise<void> {
-        await getFirestore().collection('users').doc(userId).delete();
+        return this.userRepository.delete(userId);
     }
 }
