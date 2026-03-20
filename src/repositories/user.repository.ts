@@ -33,17 +33,17 @@ export class UserRepository {
     }
 
     async save(user: User): Promise<void> {
-        const userSave = await this.collection.add({ ...user });
+        delete user.password;
+
+        console.log(user)
+
+        const userSave = await this.collection.doc(user.id).set({ ...user });
     }
 
     async update(user: User): Promise<void> {
         const docRef = this.collection.doc(user.id);
 
-        await docRef.set({
-            nome: user.nome,
-            email: user.email,
-            idade: user.idade,
-        });
+        await docRef.set({ ...user});
     }
 
     async delete(userId: string): Promise<void> {
