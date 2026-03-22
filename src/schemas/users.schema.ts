@@ -1,5 +1,14 @@
 import { Joi } from 'celebrate';
 
+export const userSchemaLogin = Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).required(),
+});
+
+export const userSchemaRecovery = Joi.object().keys({
+    email: Joi.string().email().required(),
+});
+
 export const userSchemaPost = Joi.object().keys({
     nome: Joi.string().required(),
     password: Joi.string().min(6).required(),

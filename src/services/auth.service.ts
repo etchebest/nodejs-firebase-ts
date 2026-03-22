@@ -10,6 +10,7 @@ import {
 } from 'firebase-admin/auth';
 import {
     getAuth as getFirebaseAuth,
+    sendPasswordResetEmail,
     signInWithEmailAndPassword,
     UserCredential,
 } from 'firebase/auth';
@@ -87,5 +88,9 @@ export class AuthService {
      */
     async delete(id: string) {
         await getAuth().deleteUser(id);
+    }
+
+    async recovery(email: string) {
+        await sendPasswordResetEmail(getFirebaseAuth(), email);
     }
 }

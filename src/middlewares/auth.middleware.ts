@@ -11,6 +11,10 @@ export const auth = (app: express.Express) => {
             return next();
         }
 
+        if (req.method === 'POST' && req.url.startsWith('/auth/recovery')) {
+            return next();
+        }
+
         // Pega o token do header
         const token = req.headers.authorization?.split('Bearer ')[1];
 
