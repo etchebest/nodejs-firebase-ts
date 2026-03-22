@@ -1,5 +1,5 @@
 import { CollectionReference, getFirestore } from 'firebase-admin/firestore';
-import { User } from '../types/user.type.js';
+import { User } from '../models/user.model.js';
 import { NotFoundError } from '../errors/not-found.error.js';
 
 export class UserRepository {
@@ -35,7 +35,7 @@ export class UserRepository {
     async save(user: User): Promise<void> {
         delete user.password;
 
-        console.log(user)
+        console.log(user);
 
         const userSave = await this.collection.doc(user.id).set({ ...user });
     }
@@ -43,7 +43,7 @@ export class UserRepository {
     async update(user: User): Promise<void> {
         const docRef = this.collection.doc(user.id);
 
-        await docRef.set({ ...user});
+        await docRef.set({ ...user });
     }
 
     async delete(userId: string): Promise<void> {

@@ -8,6 +8,8 @@ export const userSchemaPost = Joi.object().keys({
 });
 
 export const userSchemaUpdate = Joi.object().keys({
-    nome: Joi.string().required(),
-    idade: Joi.number().integer().required(),
+    nome: Joi.string(),
+    idade: Joi.number().integer(),
+    email: Joi.string().email(),
+    password: Joi.string().min(6),
 });
