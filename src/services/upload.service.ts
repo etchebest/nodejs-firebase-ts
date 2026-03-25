@@ -7,13 +7,23 @@ import { ValidationError } from '../errors/validation-error.js';
 export class UploadService {
     constructor(private path: string = '') {}
 
+    /**
+     * Faz o upload de um arquivo
+     * @param base64 - Arquivo em base64
+     * @returns URL do arquivo
+     */
     async upload(base64: string): Promise<string> {
         const buffer = Buffer.from(base64, 'base64');
+
         const fileType = await fileTypeFromBuffer(buffer);
         if (!fileType) {
             throw new ValidationError(
                 'A extenção do arquivo não foi reconhecida!',
             );
+        }
+
+        if (fileType.mime != 'image/jpeg' && fileType.mime != 'image/png') {
+            throw new ValidationError('A imagem precisa ser jpeg ou png!');
         }
 
         const fileName = `${randomUUID().toString()}.${fileType?.ext}`;
