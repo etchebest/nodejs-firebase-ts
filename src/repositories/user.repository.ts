@@ -1,6 +1,5 @@
 import { CollectionReference, getFirestore } from 'firebase-admin/firestore';
 import { User } from '../models/user.model.js';
-import { NotFoundError } from '../errors/not-found.error.js';
 
 export class UserRepository {
     private collection: CollectionReference;

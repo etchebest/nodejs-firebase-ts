@@ -1,18 +1,16 @@
 {
+    "extends": "@tsconfig/node22/tsconfig.json",
     "compilerOptions": {
         "rootDir": "./src",
         "outDir": "./dist",
+        "types": ["node"],
 
         "module": "nodenext",
         "target": "ES2022",
-        "moduleResolution": "nodenext",
-
-        "types": ["node"],
-
         "strict": true,
+        "esModuleInterop": true,
         "skipLibCheck": true,
-
-        "esModuleInterop": true
+        "moduleResolution": "node16"
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "dist"]

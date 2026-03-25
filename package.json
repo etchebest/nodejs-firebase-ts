@@ -5,8 +5,11 @@
   "keywords": [],
   "author": "Cristian Etchebest",
   "license": "ISC",
-  "main": "index.js",
+  "exports": "./dist/index.js",
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "start": "tsc-watch --onSuccess \"node dist/index.js\""
   },
@@ -20,7 +23,7 @@
     "firebase-admin": "^13.7.0"
   },
   "devDependencies": {
-    "@tsconfig/recommended": "^1.0.13",
+    "@tsconfig/node22": "^22.0.5",
     "@types/express": "^5.0.6",
     "@types/file-type": "^10.6.0",
     "@types/node": "^25.5.0",
