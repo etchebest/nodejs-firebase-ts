@@ -58,10 +58,7 @@ export class UserService {
      */
     async update(userId: string, user: User): Promise<string> {
         console.log('Dados chegando no serviço: ', user);
-        const _user = await this.userRepository.getById(userId);
-        if (!_user) {
-            throw new NotFoundError('Usuário não encontrado.');
-        }
+        const _user = await this.getById(userId);
 
         _user.nome = user.nome;
         _user.idade = user.idade;
